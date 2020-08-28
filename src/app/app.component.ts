@@ -11,7 +11,4 @@ export class AppComponent {
 
   constructor(private router: Router) {}
 
-  navbyurl(id:number){
-    this.router.navigateByUrl('/login/'+id);
-  }
 }
