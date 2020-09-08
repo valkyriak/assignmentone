@@ -1,13 +1,19 @@
-<h1>Account Page</h1>
-<img src="https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png" height="100px">
-<ul>
-    <li>{{username}}</li>
-    <li>{{email}}</li>
-    <li>{{age}}</li>
-    <li>{{birthdate}}</li>
-</ul>
-<div class="col-md-8">
-    <input type="button" (click)="editProfile()" class="btn btn-primary" value="Edit Profile">
-    <span></span>
-    <input type="button" (click)="signOut()" class="btn btn-default" class="btn btn-danger" value="Sign Out">
-  </div>
+<div class="row">
+    <div class="col-12 d-flex justify-content-center">
+        <div>
+            <h1>Account Page</h1>
+            <img src="https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png" height="100px">
+            <ul>
+                <li>{{username}}</li>
+                <li>{{email}}</li>
+                <li>{{age}}</li>
+                <li>{{birthdate}}</li>
+            </ul>
+            <div class="col-md-8">
+                <input type="button" (click)="editProfile()" class="btn btn-primary" value="Edit Profile">
+                <span></span>
+                <input type="button" (click)="signOut()" class="btn btn-default" class="btn btn-danger" value="Sign Out">
+            </div>
+        </div>
+    </div>
+<div class="row">
