@@ -1,0 +1,38 @@
+
+.title {
+    text-align: center;
+    padding-top: 15px;
+}
+
+.msgbox {
+    width: 900px;
+    position: fixed !important;
+}
+.onblack {
+    background-color: grey;
+}
+
+
+.msglog {
+    overflow: hidden;
+    overflow-y: auto !important;
+    height: 450px;
+}
+
+#chatbar {
+    display: flex;
+    justify-content: center;
+}
+
+#darkgrey {
+    background-color: #151419;
+    color: white;
+}
+#darkgrey2 {
+    background-color: #0f0e13;
+    color: white;
+}
+#darkgrey3 {
+    background-color:#232429;
+    color: white;
+}

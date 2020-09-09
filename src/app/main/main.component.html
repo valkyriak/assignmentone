@@ -1,0 +1,45 @@
+<div class="container-fluid min-vh-100 d-flex flex-column">
+    <div class="row flex-grow-1">
+        <div class="col-md-1" id="darkgrey">
+            <p class="title">Server</p>
+        </div>
+        <div class="col-md-2" id="darkgrey2">
+            <p class="title">Groups</p>
+        </div>
+
+        <!-- Center column containing the chat component(chat log and enter field) -->
+        <div class="col-md-6 border" id="darkgrey3">
+
+            <h3 class="title">Chat Messages</h3>
+                <div class="container-fluid msglog">
+                    <div class="row">
+                        <div class="col border">
+                            <ul>
+                                <li *ngFor="let message of messages">{{message}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="container msgbox">
+                        <div class="row">
+                            <div class="col-md-6 border">
+                                <form>
+                                    <div class= "form-group">
+                                        <label for="messagecontent">New Message</label>
+                                        <input type="text" [(ngModel)]="messagecontent" name="messagecontent" class ="form-control"/>
+                                    </div>
+                                    <div class= "form-group">
+                                        <button (click)="send()" class="btn btn-primary">Chat</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+
+        <div class="col-md-3 border border-dark" id="darkgrey3">
+            <p class="title">Details</p>
+        </div>
+    </div>
+</div>
