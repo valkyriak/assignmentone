@@ -1,11 +1,13 @@
-var fs = require('fs');
+const bodyParser = require("body-parser");
+const cors = require('cors');
+const fs = require("fs");
 
 module.exports = function(req, res) {
     let userobj = {
-        "userid": req.body.userid,
+        "userid": req.body.id,
         "username": req.body.username,
-        "userbirthdate": req.body.userbirthdate,
-        "userage": req.body.userage
+        "userrole": req.body.role,
+        "email": req.body.useremail
     }
 
 }

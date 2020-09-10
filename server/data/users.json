@@ -1,0 +1,4 @@
+[{"id":0,"username":"admin0","password":"123","email":"admin0@yeet.com","role":"SAdmin","valid":false},
+{"id":1,"username":"admin1","password":"123","email":"admin1@yeet.com","role":"GAdmin","valid":false},
+{"id":2,"username":"admin2","password":"123","email":"admin2@yeet.com","role":"GAssis","valid":false},
+{"id":3,"username":"admin3","password":"123","email":"admin3@yeet.com","role":"User","valid":false}]
