@@ -1,15 +1,24 @@
 <div class="container-fluid min-vh-100 d-flex flex-column">
     <div class="row flex-grow-1">
         <div class="col-md-1" id="darkgrey">
-            <p class="title">Server</p>
+
+            <label for="groups">Choose a Group</label>
+            <select name="groups" id="groups" class="form-control" [(ngModel)]="group" (change)=(groupSelected())>
+                <option *ngFor="let g of groups" value="{{g.id}}">{{g.group_name}}</option>
+            </select>
+
+            <!-- <p class="title">Server</p>
             <label for="roomInput">Choose room</label>
             <select name="roomInput" id="roomInput" class="form-control" [(ngModel)]="room">
                 <option value="Lobby">Lobby</option>
                 <option value="Hall">Hall</option>
                 <option value="Deluxe">Deluxe</option>
-            </select>
+            </select> -->
+
             <div style="margin-top:19px;" class="pull-right"> 
                 <button type="button" class="btn btn-primary" (click)="join()">Join</button>
+                <br>
+                <br>
                 <button type="button" class="btn btn-danger" (click)="leave()">Leave</button>
             </div>
         </div>
@@ -17,10 +26,13 @@
 
         <div class="col-md-2" id="darkgrey2">
             <p class="title">Groups</p>
-            
+            <label for="channels">Choose a group</label>
+            <select name="channels" id="channels" class="form-control" [(ngModel)]="channels">
+                <option *ngFor="let c of channels" value="{{c.channel_name}}">{{channel_name}}</option>
+            </select>
+
         </div>
 
-        <!-- Center column containing the chat component(chat log and enter field) -->
         <div class="col-md-6 border" id="darkgrey3">
 
             <h3 class="title">Chat Messages</h3>

@@ -1,0 +1,39 @@
+{
+    "groups": [
+      {
+        "id": 1,
+        "group_name": "Yeet",
+        "users": [
+          "admin2",
+          "admin1",
+          "admin3"
+        ]
+      },
+      {
+        "id": 2,
+        "group_name": "Stocks",
+        "users": [
+          "admin2",
+          "admin1",
+          "admin3"
+        ]
+      },
+      {
+        "id": 3,
+        "group_name": "Study",
+        "users": [
+          "admin3",
+          "admin2"
+        ]
+      }
+    ],
+    "channels": [
+      {
+        "id": 1,
+        "channel_name": "Private",
+        "group_id": 1,
+        "users": ["admin1"],
+        "chat_history": []
+      }
+    ]
+  }

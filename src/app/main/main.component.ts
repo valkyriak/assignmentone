@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { SocketService } from '../services/socket.service';
 import { Router } from '@angular/router';
 import { User } from '../user';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
-
+const BACKEND_URL = 'http://localhost:3000';
+const httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+};
 
 @Component({
   selector: 'app-main',
@@ -12,28 +16,38 @@ import { User } from '../user';
 })
 export class MainComponent implements OnInit {
 
+  //User information declarations for parsing data
   currentUser:User;
   username:string = "";
   id:number =0;
   role:string ='';
   email:string = '';
 
+  //Room and Channel declarations for parsing data
   room:String;
+  group:Array<{id:Number, group_name:String, users:Array<String>}> = [];
+
+  groups:Array<{id:Number, group_name:String, users:Array<String>}> = [];
+  
+  channels:Array<{id:Number, group_name:String, users:Array<String>}> = [];
+  channel:String;
+
+  //Chat element declarations for parsing data
   newMessage:String;
-  messageArray:Array<{user:String, message:String}> = [{user:"yeet", message:"ka"},{user:"array", message:"not"}];
+  messageArray:Array<{user:String, message:String}> = [];
  
   ioConnection:any;
 
-  constructor(private socketService: SocketService, private router: Router) { 
+  constructor(private socketService: SocketService, private router: Router, private httpClient: HttpClient) { 
     
-        this.socketService.newUserJoined()
-        .subscribe(data=> this.messageArray.push(data));
+    // this.socketService.newUserJoined()
+    // .subscribe(data=> this.messageArray.push(data));
 
-        this.socketService.userLeftRoom()
-        .subscribe(data=>this.messageArray.push(data));
+    // this.socketService.userLeftRoom()
+    // .subscribe(data=>this.messageArray.push(data));
 
-        this.socketService.newMessageReceived()
-        .subscribe(data=>this.messageArray.push(data));
+    // this.socketService.newMessageReceived()
+    // .subscribe(data=>this.messageArray.push(data));
 
   }
 
@@ -54,9 +68,14 @@ export class MainComponent implements OnInit {
     }
 
 
+
+
 // On load grab the current user details from local storage
   ngOnInit(): void {
 
+    this.getGroups()
+    this.initChatConnection()
+    
       try {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if(this.currentUser){
@@ -71,6 +90,60 @@ export class MainComponent implements OnInit {
         this.router.navigateByUrl('/login');
       }
   }
+
+  //Fetches the groups from JSON file
+  private getGroups() {
+
+    this.httpClient.post(BACKEND_URL + '/api/groups', httpOptions)
+    .subscribe((data: any) => {
+        if (data) {
+            data.forEach(g => {
+                g.users.forEach(user => {
+                    if (user == this.username) {
+                        this.groups.push(g);
+                    }
+                });
+            });
+        } else {
+            alert('No groups, please add some in the admin panel');
+        }
+
+    });
+}
+private getChannnels(group_id) {
+
+  this.httpClient.post(BACKEND_URL + '/api/channels', httpOptions)
+  .subscribe((data: any) => {
+      if (data) {
+          data.forEach(c => {
+              if (c.group_id == group_id) {
+                  this.channels.push(c);
+              }
+          });
+      } else {
+          alert('No channels available, please add some in the admin panel');
+      }
+
+  });
+}
+public groupSelected() {
+  this.channels = [];
+  this.getChannnels(this.group);
+
+}
+
+
+//Initialises chat functionality
+private initChatConnection() {
+  this.socketService.newMessageReceived()
+  .subscribe(data => this.messageArray.push(data));
+
+  this.socketService.newUserJoined()
+  .subscribe(data => this.messageArray.push(data));
+
+  this.socketService.userLeftRoom()
+  .subscribe(data => this.messageArray.push(data));
+}
 
 }
 

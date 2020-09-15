@@ -18,7 +18,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json())
 
 sockets.connect(io, PORT)
-
 server.listen(http, PORT);
 
 var path = require('path');
@@ -26,3 +25,5 @@ var path = require('path');
 
 require('./routes/postLogin.js')(app,path);
 require('./routes/postLoginafter.js')(app,path);
+require('./routes/channels.js')(app, path);
+require('./routes/groups.js')(app, path);
