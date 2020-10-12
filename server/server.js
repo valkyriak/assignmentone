@@ -27,3 +27,4 @@ require('./routes/postLogin.js')(app,path);
 require('./routes/postLoginafter.js')(app,path);
 require('./routes/channels.js')(app, path);
 require('./routes/groups.js')(app, path);
+require('./routes/users.js')(app, path);

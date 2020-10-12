@@ -17,7 +17,7 @@ export class AppComponent {
 
   ngOnInit() {
     try {
-      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
       if(this.currentUser){
         this.email = this.currentUser.email;
         this.username = this.currentUser.username;

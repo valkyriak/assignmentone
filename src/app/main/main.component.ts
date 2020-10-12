@@ -23,22 +23,13 @@ export class MainComponent implements OnInit {
   role:string ='';
   email:string = '';
 
-  //Room and Channel declarations for parsing data
-
-  // channelobj = new ChannelObj();
-  group_array:any;
-  channel_array:any;
-  all_channel_users:any;
-  channel_users:any;
-  channels:any;
-
   room:String;
-  group:Array<{id:Number, group_name:String, users:Array<String>}> = [];
 
+  group:Array<{id:Number, group_name:String, users:Array<String>}> = [];
   groups:Array<{id:Number, group_name:String, users:Array<String>}> = [];
   
-  // channels:Array<{id:Number, group_name:String, users:Array<String>}> = [];
-  // channel:String;
+  channels:Array<{id:Number, group_name:String, users:Array<String>}> = [];
+  channel:String;
 
   //Chat element declarations for parsing data
   newMessage:String;
@@ -47,15 +38,7 @@ export class MainComponent implements OnInit {
   ioConnection:any;
 
   constructor(private socketService: SocketService, private router: Router, private httpClient: HttpClient) { 
-    
-    // this.socketService.newUserJoined()
-    // .subscribe(data=> this.messageArray.push(data));
-
-    // this.socketService.userLeftRoom()
-    // .subscribe(data=>this.messageArray.push(data));
-
-    // this.socketService.newMessageReceived()
-    // .subscribe(data=>this.messageArray.push(data));
+  
 
   }
 
@@ -63,6 +46,7 @@ export class MainComponent implements OnInit {
     join(){
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       this.socketService.joinRoom({user:this.currentUser.username, room:this.room});
+      alert("you have joined the room")
     }
     // Leaves the current user from their selected room
     leave(){
@@ -82,7 +66,6 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
 
     this.getGroups()
-    // this.getChannnels()
     this.initChatConnection()
     
       try {
@@ -119,22 +102,19 @@ export class MainComponent implements OnInit {
 
     });
 }
-public getChannnels(group_id) {
 
-  this.httpClient.post(BACKEND_URL + '/api/channels', httpOptions)
-  .subscribe((data: any) => {
-      if (data) {
-          data.forEach(c => {
-              if (c.group_id == group_id) {
-                  this.channels.push(c);
-              }
-          });
-      } else {
-          alert('No channels available, please add some in the admin panel');
-      }
+// public getUsers() {
+//   this.httpClient.post(BACKEND_URL + '/api/users', httpOptions)
+//   .subscribe((data: any) => {
+//     if (data) {
+//       data.forEach(u => {
+//         if (u.user == this.username)
+//             this.group.push(u);
+//       })
+//     }
 
-  });
-}
+//   });
+// }
 
 
 //Initialises chat functionality
@@ -148,6 +128,7 @@ private initChatConnection() {
   this.socketService.userLeftRoom()
   .subscribe(data => this.messageArray.push(data));
 }
+
 
 }
 
