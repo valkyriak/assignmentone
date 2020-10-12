@@ -1,33 +1,23 @@
-module.exports = function(app, path){
-    const fs  = require("fs");
+const bcrypt = require('bcryptjs')
+
+module.exports = function(app, usersCollect) {
+
     app.post('/api/auth', function(req,res) {
-          if (!req.body) {
-              return res.sendStatus(400)
-          }
-          var user = {};
-          user.valid = false;
-          user.id = 0;
-          user.role = '';
-          user.email = '';
-          user.password = '';
-          user.username = '';
 
-        fs.readFile('./data/users.json', function read(err, data){
-            if (err) {
-                throw err;
+        usersCollect.findOne({ username: req.body.username }, (err, data) => {
+            if (err) { return res.sendStatus(400); }
+            if(data == null) {
+                return res.status(200).send({code: 1, message: "User could not be found"});
             }
-            accounts = JSON.parse(data);
 
-            let user = accounts.find(use => ((use.username == req.body.username) && (use.password == req.body.password)));
-
-            if (user) {
-                user.ok = true;
-                user.password = "";
-                res.send(user);
-                console.log(user);
-            } else {
-                res.send({"ok":false});
-            }
-        })
-    })
-}
+            bcrypt.compare(req.body.password, data.password, (err, result) => {
+                if(err) { return res.sendStatus(400); }
+                if (result === true) {
+                    return res.status(200).send({ _id: data._id, username: data.username, email: data.email, role: data.role });
+                } else {
+                    return res.status(200).send({ code: 2, message: "Password does not match"});
+                }
+            });
+        });
+    });
+};

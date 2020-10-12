@@ -17,24 +17,16 @@ const httpOptions = {
 export class MainComponent implements OnInit {
 
   //User information declarations for parsing data
-  currentUser:User;
-  username:string = "";
-  id:number =0;
-  role:string ='';
-  email:string = '';
+ 
+  public groups = [];
+  public group_select: any = null;
 
-  room:String;
-
-  group:Array<{id:Number, group_name:String, users:Array<String>}> = [];
-  groups:Array<{id:Number, group_name:String, users:Array<String>}> = [];
-  
-  channels:Array<{id:Number, group_name:String, users:Array<String>}> = [];
-  channel:String;
+  public channels: any = null;
+  public channel_select: any = null;
 
   //Chat element declarations for parsing data
   newMessage:String;
   messageArray:Array<{user:String, message:String}> = [];
- 
   ioConnection:any;
 
   constructor(private socketService: SocketService, private router: Router, private httpClient: HttpClient) { 
@@ -42,16 +34,13 @@ export class MainComponent implements OnInit {
 
   }
 
-    // Joins the current user to their selected room
+    // Joins the current user to their selected room and channel
     join(){
-      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      this.socketService.joinRoom({user:this.currentUser.username, room:this.room});
-      alert("you have joined the room")
+      
     }
-    // Leaves the current user from their selected room
+    // Leaves the current user from their selected room and channel
     leave(){
-      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      this.socketService.leaveRoom({user:this.currentUser.username, room:this.room});
+
     }
     //Sends a message to the currently joined chatroom.
     sendMessage(){
@@ -62,7 +51,7 @@ export class MainComponent implements OnInit {
 
 
 
-// On load grab the current user details from local storage
+// On load grab the current user details, grabs groups from local storage
   ngOnInit(): void {
 
     this.getGroups()
@@ -102,19 +91,17 @@ export class MainComponent implements OnInit {
 
     });
 }
+public getChannels(group) {
+  this.channels = [];
+  this.httpClient.get(BACKEND_URL + '/api/get-channels'/ + group._id, httpOptions).subscribe((data: any) => {
 
-// public getUsers() {
-//   this.httpClient.post(BACKEND_URL + '/api/users', httpOptions)
-//   .subscribe((data: any) => {
-//     if (data) {
-//       data.forEach(u => {
-//         if (u.user == this.username)
-//             this.group.push(u);
-//       })
-//     }
+  });
+}
 
-//   });
-// }
+
+public channelSelect(channel) {
+  this.channel_select = channel;
+}
 
 
 //Initialises chat functionality
