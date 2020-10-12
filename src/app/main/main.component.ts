@@ -24,13 +24,21 @@ export class MainComponent implements OnInit {
   email:string = '';
 
   //Room and Channel declarations for parsing data
+
+  // channelobj = new ChannelObj();
+  group_array:any;
+  channel_array:any;
+  all_channel_users:any;
+  channel_users:any;
+  channels:any;
+
   room:String;
   group:Array<{id:Number, group_name:String, users:Array<String>}> = [];
 
   groups:Array<{id:Number, group_name:String, users:Array<String>}> = [];
   
-  channels:Array<{id:Number, group_name:String, users:Array<String>}> = [];
-  channel:String;
+  // channels:Array<{id:Number, group_name:String, users:Array<String>}> = [];
+  // channel:String;
 
   //Chat element declarations for parsing data
   newMessage:String;
@@ -74,6 +82,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
 
     this.getGroups()
+    // this.getChannnels()
     this.initChatConnection()
     
       try {
@@ -92,7 +101,7 @@ export class MainComponent implements OnInit {
   }
 
   //Fetches the groups from JSON file
-  private getGroups() {
+  public getGroups() {
 
     this.httpClient.post(BACKEND_URL + '/api/groups', httpOptions)
     .subscribe((data: any) => {
@@ -110,7 +119,7 @@ export class MainComponent implements OnInit {
 
     });
 }
-private getChannnels(group_id) {
+public getChannnels(group_id) {
 
   this.httpClient.post(BACKEND_URL + '/api/channels', httpOptions)
   .subscribe((data: any) => {
@@ -125,11 +134,6 @@ private getChannnels(group_id) {
       }
 
   });
-}
-public groupSelected() {
-  this.channels = [];
-  this.getChannnels(this.group);
-
 }
 
 

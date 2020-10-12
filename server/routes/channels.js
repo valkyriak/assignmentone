@@ -10,7 +10,7 @@ module.exports = function(app, path) {
             if (err) {
                 throw err;
             } else {
-                res.send(JSON.parse(data).groups);
+                res.send(JSON.parse(data).channels);
             }
         });
     });

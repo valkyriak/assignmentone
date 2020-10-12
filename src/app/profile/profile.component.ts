@@ -27,4 +27,8 @@ export class ProfileComponent implements OnInit {
     sessionStorage.setItem('email', this.email)
     this.router.navigateByUrl('/account')
   }
+
+  public cancelProfile() {
+    this.router.navigateByUrl('/account')
+  }
 }

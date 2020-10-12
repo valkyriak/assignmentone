@@ -11,7 +11,7 @@ module.exports = {
               //joining
               socket.join(data.room);
         
-              console.log(data.user + 'joined the room : ' + data.room);
+              console.log(data.user + ' joined the room : ' + data.room);
         
               socket.broadcast.to(data.room).emit('new user joined', {user:data.user, message:'has joined this room.'});
             });
@@ -19,7 +19,7 @@ module.exports = {
         
             socket.on('leave', function(data){
             
-              console.log(data.user + 'left the room : ' + data.room);
+              console.log(data.user + ' left the room : ' + data.room);
         
               socket.broadcast.to(data.room).emit('left room', {user:data.user, message:'has left this room.'});
         
