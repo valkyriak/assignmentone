@@ -36,15 +36,24 @@ export class MainComponent implements OnInit {
   
     public channels: any = null;
     public channel_select: any = null;
+
+    public clicked: boolean = false;
   
 
     // Joins the current user to their selected room and channel
     join(){
-      
+      this.messageArray = this.channel_select.chatHistory;
+      this.clicked = true;
+      let data = {username: this.currentUserDetails.username, room: this.channel_select.id}
+      this.socketService.joinRoom(data);
+
     }
     // Leaves the current user from their selected room and channel
     leave(){
-
+      this.messageArray = [];
+      this.clicked = false;
+      let data = {username: this.currentUserDetails.username, room: this.channel_select.id}
+      this.socketService.leaveRoom(data);
     }
     //Sends a message to the currently joined chatroom.
     sendMessage(){
@@ -60,15 +69,15 @@ export class MainComponent implements OnInit {
 // On load grab the current user details, grabs groups from local storage
   ngOnInit(): void {
 
-    if(this.userService.current_user) {
-      this.currentUser = this.userService.current_user;
+    if(this.userService.active_user) {
+      this.currentUser = this.userService.active_user;
     } else {
       alert ("Please sign in")
       this.router.navigateByUrl('/login');
     }
 
-    if (this.currentUser && this.userService.userrole.includes(this.userService.RetrieveUserDetails)) {
-      this.currentUserDetails = this.userService.RetrieveUserDetails;
+    if (this.currentUser && this.userService.roles.includes(this.userService.user_info.role)) {
+      this.currentUserDetails = this.userService.user_info;
     } else {
       this.router.navigateByUrl('/login');
   }
@@ -125,6 +134,11 @@ public getChannels(group) {
 
 public channelSelect(channel) {
   this.channel_select = channel;
+  this.clicked = false;
+}
+
+public groupSelect(group) {
+  this.getChannels(group);
 }
 
 

@@ -1,13 +1,14 @@
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 
-module.exports = function(app, usersCollect) {
+module.exports = function(app, userCollect) {
 
-    app.post('/api/auth', function(req,res) {
+    app.post('/api/auth', (req,res) => {
 
-        usersCollect.findOne({ username: req.body.username }, (err, data) => {
+        userCollect.findOne({ username: req.body.username }, (err, data) => {
+            console.log(userCollect);
             if (err) { return res.sendStatus(400); }
             if(data == null) {
-                return res.status(200).send({code: 1, message: "User could not be found"});
+                return res.status(200).send({code: 1, message: "User does not exist"});
             }
 
             bcrypt.compare(req.body.password, data.password, (err, result) => {

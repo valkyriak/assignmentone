@@ -34,14 +34,14 @@
         "channel_name": "yo",
         "group_id": 1,
         "users": ["admin1"],
-        "chat_history": []
+        "chatHistory": []
       },
       {
         "id": 8,
         "channel_name": "yeeta",
         "group_id": 2,
         "users": ["admin1","admin2"],
-        "chat_history": []
+        "chatHistory": []
       }
       
     ]

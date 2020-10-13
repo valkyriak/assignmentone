@@ -1,47 +1,38 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
   
-  private currentuser:boolean = false;
-  private userdetails;
+  private _active_user:boolean = false;
+    private _user_info;
+    roles = ["super-admin", "group-admin", "group-assistant", "user"];
 
-  userrole = ["super-admin", "group-admin", "group-assistant", "user"];
+    constructor(private httpClient: HttpClient) { }
 
-  constructor(private httpClient: HttpClient) { }
-
-  // Pulls users 
-  public RequestUsers(): Observable<any> {
-    return this.httpClient.get('/api/getusers/');
-  }
-
-  //Gets user details by ID
-  public RequestUserDetails(id: string): Observable<any> {
-    return this.httpClient.get('/api/users/' + id)
-  }
-
-  // Retrieves the current user session from local storage for use on other pages
-  get current_user() {
-    if(localStorage.getItem("current-user")) {
-      let storage = JSON.parse(localStorage.getItem("current-user"));
-      this.userdetails = storage.user;
-      this.currentuser = storage.session;
-      return this.currentuser
+    get active_user() {
+        if(localStorage.getItem("active-user")) {
+            let storage = JSON.parse(localStorage.getItem("active-user"));
+            this._user_info = storage.user;
+            this._active_user = storage.session;
+            return this._active_user;
+        }
     }
-  }
-  // Sets status after retrieval
-  set current_user(status) {
-    this.currentuser = status
-  }
-  
-  // Returns user details
-  get RetrieveUserDetails() {
-    return this.userdetails
-  }
+    set active_user(status) {
+        this._active_user = status
+    }
 
-  
+    get user_info() { return this._user_info; }
+
+    public fetchUsersData(id: string): Observable<any> {
+        return this.httpClient.get('/api/users/' + id);
+    }
+
+    public fetchUsers(): Observable<any> {
+        return this.httpClient.get('/api/users/');
+    }
+
 }

@@ -1,11 +1,9 @@
+// module.exports = function(userCollect, app) {
 
-module.exports = function(app, userCollect, ObjectID) {
-
-    app.get('/api/getusers/:id', function(req,res) {
-        let userID = ObjectID(req.params.id);
-        userCollect.findOne({_id: userID}, {projection: {password:0}}, (err, result) => {
-            if(err) { return res.sendStatus(400); }
-            return res.sendStatus(200).send(result);
-        })
-    });
-};
+//     app.get('/api/getusers/', (req, res) => {
+//         userCollect.find({}, {projection: {password:0}}).toArray( (err, result) => {
+//             if(err) { return res.sendStatus(400); }
+//             return res.status(200).send(result);
+//         });
+//     });
+// };

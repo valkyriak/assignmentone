@@ -2,16 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { UsersService } from '../services/users.service';
 
-import { User } from '../user';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
-
-// import { User } from 'server/model/user';
-
-const backUrl = 'http://localhost:3000';
 
 @Component({
   selector: 'app-login',
@@ -20,38 +12,38 @@ const backUrl = 'http://localhost:3000';
 })
 export class LoginComponent implements OnInit {
 
-  id:number = 0;
-  email:string = "";
-  username:string = "";
-  password:string = "";
-  role:string = "";
-  newuser:User;
 
+  constructor(private router: Router, private httpClient: HttpClient, private userService: UsersService) { }
 
+  username: string;
+  password: string;
+  active_user: boolean = false;
+  loginDetails = null;
 
-  constructor(private router: Router, private httpClient: HttpClient) { }
+  public error: any;
 
-  ngOnInit() { 
-
-    
+  ngOnInit() {
+      if (this.userService.active_user) {
+          this.router.navigateByUrl('/main');
+      }
+      this.loginDetails = {username: this.username, password: this.password};
   }
 
-  public loginUser() {
-    let user = {username: this.username, password: this.password};
-    this.httpClient.post(backUrl + '/api/auth', user, httpOptions).subscribe((data:any) => {
-        if (data.ok){
-          this.newuser = new User(data.id, data.username, data.email, data.password, data.role, data.ok)
-          localStorage.setItem('currentUser', JSON.stringify(this.newuser));
-          alert("Successfully logged in")
-          this.router.navigateByUrl("/main");
-        } else {
-          alert ("Sorry, account credentials are not valid");
-        }
-  
-    });
+  login() {
+    console.log("login button pressed")
+      this.httpClient.post('/api/auth', this.loginDetails).subscribe((data: any) => {
+          if (data.code == 1 || data.code == 2) {
+              console.log(data.code)
+              this.error = data;
+          } else {
+              localStorage.setItem('active-user', JSON.stringify(
+                  {
+                      "user": data,
+                      "session": true
+                  }
+              ));
+              location.reload();
+          }
+      });
   }
-
 }
-
-
-
