@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../user';
+import { UsersService } from '../services/users.service'
 
 
 @Component({
@@ -10,37 +11,38 @@ import { User } from '../user';
 })
 export class AccountComponent implements OnInit {
 
-  currentUser:User;
-  username:string = "";
-  id:number =0;
-  role:string ='';
-  email:string = '';
+  currentUser: any;
+  username:string;
+  role:string;
+  user: any;
+  id: any;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private userService: UsersService) { }
 
+  user_data;
 
   ngOnInit(): void {
-    try {
-      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      if(this.currentUser){
-        this.email = this.currentUser.email;
-        this.username = this.currentUser.username;
-        this.role = this.currentUser.role;
-        this.id = this.currentUser.id;
-      }
-    }
-    catch(err){
-      alert ("Not logged in");
-      this.router.navigateByUrl('/login');
-    }
+    // if(this.userService.active_user) {
+    //   this.currentUser = this.userService.active_user;
+    // } else {
+    //   alert ("Please sign in")
+    //   this.router.navigateByUrl('/login');
+    // }
   }
 
+  //Takes the user to the edit profile page
   public editProfile() {
     this.router.navigateByUrl('/profile')
   }
+  
+  //Clears the localstorage user session and redirects back to the other page.
   public signOut(){
-    localStorage.setItem('currentUser', '');
-    this.router.navigate(['/login']);
-    window.location.reload();
+    if(this.userService.active_user) {
+      localStorage.clear();
+      this.router.navigate(['/login']);
+      window.location.reload();
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }

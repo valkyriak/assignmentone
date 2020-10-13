@@ -1,10 +1,10 @@
-// module.exports = function(groupCollect, app) {
+module.exports = function(groupCollect, app) {
 
-//     app.get('/api/get-groups', function (req, res) {
+    app.get('/api/getgroups', function (req, res) {
 
-//         groupCollect.find({}).toArray( (err, result) => {
-//             if(err) { return res.sendStatus(400); }
-//             return res.send(result);
-//         });
-//     });
-// };
+        groupCollect.find({}).toArray( (err, result) => {
+            if(err) { return res.sendStatus(400); }
+            return res.send(result);
+        });
+    });
+};

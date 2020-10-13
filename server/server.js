@@ -38,10 +38,12 @@ MongoClient.connect(url, {poolSize:10, useNewUrlParser: true, useUnifiedTopology
 
     sockets.connect(io, PORT);
     server.listen(http, PORT);
-
+    
+    //Mongodb name
     const dbName = "chatDB"
     const db = client.db(dbName);
 
+    //constants for easy mongodb access
     const userCollect = db.collection('users')
     const groupCollect = db.collection('groups')
     const channelCollect = db.collection('channels')

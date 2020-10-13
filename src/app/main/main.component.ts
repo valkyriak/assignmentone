@@ -42,25 +42,25 @@ export class MainComponent implements OnInit {
 
     // Joins the current user to their selected room and channel
     join(){
-      this.messageArray = this.channel_select.chatHistory;
-      this.clicked = true;
-      let data = {username: this.currentUserDetails.username, room: this.channel_select.id}
-      this.socketService.joinRoom(data);
+      // this.messageArray = this.channel_select.chatHistory;
+      // this.clicked = true;
+      // let data = {username: this.currentUserDetails.username, room: this.channel_select._id}
+      // this.socketService.joinRoom(data);
 
     }
     // Leaves the current user from their selected room and channel
     leave(){
-      this.messageArray = [];
-      this.clicked = false;
-      let data = {username: this.currentUserDetails.username, room: this.channel_select.id}
-      this.socketService.leaveRoom(data);
+      // this.messageArray = [];
+      // this.clicked = false;
+      // let data = {username: this.currentUserDetails.username, room: this.channel_select.id}
+      // this.socketService.leaveRoom(data);
     }
     //Sends a message to the currently joined chatroom.
     sendMessage(){
-      console.log(this.newMessage);
-      let data = {username: this.currentUserDetails.username, room: this.channel_select.id, message: this.newMessage};
-      this.socketService.sendMessage(data);
-      this.newMessage = '';
+      // console.log(this.newMessage);
+      // let data = {username: this.currentUserDetails.username, room: this.channel_select.id, message: this.newMessage};
+      // this.socketService.sendMessage(data);
+      // this.newMessage = '';
     }
 
 
@@ -79,7 +79,7 @@ export class MainComponent implements OnInit {
     if (this.currentUser && this.userService.roles.includes(this.userService.user_info.role)) {
       this.currentUserDetails = this.userService.user_info;
     } else {
-      this.router.navigateByUrl('/login');
+      // this.router.navigateByUrl('/login');
   }
 
     this.getGroups()
